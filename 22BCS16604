@@ -1,0 +1,92 @@
+CODE:
+/* 
+ * File: LoginServlet.java
+ * Description: Servlet to accept user credentials through an HTML form and display personalized welcome message.
+ * Author: Lokesh Yadav
+ * UID: 22BCS16604
+ * Section: 631 Group A
+ *
+ * Related HTML (login.html):
+ *
+ * <!DOCTYPE html>
+ * <html>
+ * <head><title>Login</title></head>
+ * <body>
+ *   <h2>User Login</h2>
+ *   <form action="LoginServlet" method="post">
+ *     Username: <input type="text" name="username" required><br><br>
+ *     Password: <input type="password" name="password" required><br><br>
+ *     <input type="submit" value="Login">
+ *   </form>
+ * </body>
+ * </html>
+ */
+
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class LoginServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Set response content type
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        // Read form data
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Hardcoded user validation (you can later connect to DB)
+        if ("lokesh".equalsIgnoreCase(username) && "1234".equals(password)) {
+            out.println("<html><body>");
+            out.println("<h2>Welcome, " + username + "!</h2>");
+            out.println("<p>Login successful.</p>");
+            out.println("</body></html>");
+        } else {
+            out.println("<html><body>");
+            out.println("<h2>Login Failed</h2>");
+            out.println("<p>Invalid username or password.</p>");
+            out.println("</body></html>");
+        }
+    }
+
+    // For testing via GET (optional)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doPost(request, response);
+    }
+}
+
+
+<web-app>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>LoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
+
+
+OUTPUT :
+ Sample Output
+✅ Correct credentials (lokesh / 1234):
+html
+Copy
+Edit
+Welcome, lokesh!
+Login successful.
+❌ Wrong credentials:
+html
+Copy
+Edit
+Login Failed
+Invalid username or password.
